@@ -1,19 +1,29 @@
 // 星体
 class Star{
-  int id; // 天体编号
+  String name; // 天体名称
   float mass; // 质量
-  float radius = 5; // 半径
+  float radius;// 半径
   PVector v; // 速度
   PVector pos; // 位置
+  float maxV=0; // 最大速度
   color c = color(255,255,255); // 颜色
-  PVector[] tail = new PVector[80]; // 轨道的尾巴
+  int cunt = 1; // 合并的行星数
+  PVector[] tail = new PVector[30]; // 轨道的尾巴
+  float prRatio=1; // 像素/真实长度
   int num = 0;
   Star(PVector pos,PVector v, float mass){
     this.pos = pos;
     this.v = v;
     this.mass = mass;
   }
+  void apply(PVector a){
+    this.v.add(a);
+    if(v.mag()>maxV){
+      maxV = v.mag();
+    }
+  }
   void show(){
+    pos.add(v);
     fill(c);
     if(num==tail.length){
       num = 0;
@@ -22,9 +32,9 @@ class Star{
     num++;
     for(PVector p : tail){
       if(p!=null){
-        circle(p.x,p.y,3);
+        circle(p.x*prRatio,p.y*prRatio,3);
       }
     }
-    circle(pos.x,pos.y,radius);
+    circle(pos.x*prRatio,pos.y*prRatio,radius);
   }
 }
