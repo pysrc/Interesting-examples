@@ -9,8 +9,8 @@ int hz = 1; // 刷新快慢
 boolean prt = false; // 保留轨迹
 boolean info = true; // 显示运行信息
 
-// 像素与实际距离比值（200px/水星轨道）
-float prRatio = 3.4536349507857018e-09;
+// 像素与实际距离比值（400px/水星轨道）
+float prRatio = 200.0/5.79100e+10;
 
 // 天体名称
 String[] names = new String[]{"太阳", "水星", "金星", "地球", "火星", "木星", "土星", "天王", "海王"};
@@ -29,19 +29,23 @@ PVector startPos = new PVector(0,0);
 PVector startV = new PVector(0,0);
 
 // 显示的星体数量
-int show = 7;
+int show = 9;
 
 // 初始化星体速度
 void speed(float ratio){
   starM[0]=starM[0]*ratio;
   for(int i=1;i<show;i++){
     starM[i]=starM[i]*ratio;
-    // 都按水星偏心率0.206处理
-    starV[i] = 1.1965*sqrt(starM[0]*sys.g/starDis[i]);
+    // 水星偏心率0.206，特殊处理
+    if("水星".equals(names[i])){
+      starV[i] = 1.1965*sqrt(starM[0]*sys.g/starDis[i]);
+    }else{
+      starV[i] = 1.1*sqrt(starM[0]*sys.g/starDis[i]);
+    }
   }
 }
 void setup(){
-  size(800,600);
+  size(1200,700);
   noStroke();
   cx = width/2;
   cy = height/2;
@@ -66,7 +70,25 @@ void setup(){
        s.c=color(random(255),random(0,20),random(255));
      }
      sys.add(s);
+     // 添加木卫六（木卫六轨道大，能观察到）
+     if("木星".equals(names[i])){
+       float mass = 6700.; // 质量
+       float r = 11451971000.; // 轨道半径
+       float vm = sqrt(starM[i]*sys.g/r);
+       PVector v6 = v.copy();
+       v6.add(new PVector(0,-vm));
+       PVector pm = pos.copy();
+       pm.add(new PVector(r,0));
+       Star mv6 = new Star(pm,v6,mass);
+       mv6.prRatio=prRatio;
+       mv6.name="卫六";
+       mv6.c=color(random(255),random(0,20),random(255));
+       mv6.radius = 10;
+       mv6.tail = new PVector[4];
+       sys.add(mv6);
+     }
   }
+  sc*=0.5;
 }
 
 void draw(){
