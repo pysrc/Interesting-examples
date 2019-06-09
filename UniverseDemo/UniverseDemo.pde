@@ -8,8 +8,9 @@ float sc = 1;
 int hz = 1; // 刷新快慢
 boolean prt = false; // 保留轨迹
 boolean info = true; // 显示运行信息
+boolean showName = false; // 显示天体名称
 
-// 像素与实际距离比值（400px/水星轨道）
+// 像素与实际距离比值（200px/水星轨道）
 float prRatio = 200.0/5.79100e+10;
 
 // 天体名称
@@ -70,7 +71,7 @@ void setup(){
        s.c=color(random(255),random(0,20),random(255));
      }
      sys.add(s);
-     // 添加木卫六（木卫六轨道大，能观察到）
+     // 添加木卫六(轨道半径大，能看到)
      if("木星".equals(names[i])){
        float mass = 6700.; // 质量
        float r = 11451971000.; // 轨道半径
@@ -81,10 +82,9 @@ void setup(){
        pm.add(new PVector(r,0));
        Star mv6 = new Star(pm,v6,mass);
        mv6.prRatio=prRatio;
-       mv6.name="卫六";
+       mv6.name="木卫六";
        mv6.c=color(random(255),random(0,20),random(255));
        mv6.radius = 10;
-       mv6.tail = new PVector[4];
        sys.add(mv6);
      }
   }
@@ -95,6 +95,8 @@ void draw(){
   
   if(!prt){
       background(255);
+  }else{
+    info=false;
   }
   translate(cx, cy);
   fill(0);
@@ -105,12 +107,12 @@ void draw(){
     //text("最大速度：  "+sys.maxV,-cx+20,st+=20);
     text("最大距离：  "+sys.maxD,-cx+20,st+=20);
     text("当前最大距离："+sys.maxDC,-cx+20,st+=20);
-    text("天体|颜色",-cx+20,st+=20);
+    text("天体 | 颜色",-cx+20,st+=20);
     for(Star s : sys.stars){
       st+=20;
       fill(s.c);
       int dx = 20;
-      int dxx = 35;
+      int dxx = 45;
       text(s.name+" ",-cx+dx,st);
       circle(-cx+(dx+=dxx),st-3,15);
     }
@@ -164,6 +166,13 @@ void keyPressed(){
     case 'd': // 减速到1
     case 'D':
       hz=1;
+      break;
+    case 's':
+    case 'S': // 显示天体名称
+      showName=!showName;
+      for(Star s : sys.stars){
+        s.showName = showName;
+      }
       break;
   }
 }

@@ -11,6 +11,7 @@ class Star{
   PVector[] tail = new PVector[30]; // 轨道的尾巴
   float prRatio=1; // 像素/真实长度
   int num = 0;
+  boolean showName = false;
   Star(PVector pos,PVector v, float mass){
     this.pos = pos;
     this.v = v;
@@ -24,6 +25,12 @@ class Star{
   }
   void show(){
     pos.add(v);
+    float px = pos.x*prRatio;
+    float py = pos.y*prRatio;
+    fill(0);
+    if(showName){
+      text(name,px,py-radius);
+    }
     fill(c);
     if(num==tail.length){
       num = 0;
@@ -35,6 +42,6 @@ class Star{
         circle(p.x*prRatio,p.y*prRatio,3);
       }
     }
-    circle(pos.x*prRatio,pos.y*prRatio,radius);
+    circle(px,py,radius);
   }
 }
