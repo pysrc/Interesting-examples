@@ -64,10 +64,10 @@ void setup(){
      s.name = names[i];
      s.prRatio=prRatio;
      if(i==0){ // 太阳单独处理
-       s.radius = 100.0; // 100个像素
+       s.radius = 50.0; // 50个像素
        s.c = color(255,0,0);
      }else{
-       s.radius = 30.0; // 30个像素
+       s.radius = 15.0; // 15个像素
        s.c=color(random(255),random(0,20),random(255));
      }
      sys.add(s);
@@ -84,7 +84,9 @@ void setup(){
        mv6.prRatio=prRatio;
        mv6.name="木卫六";
        mv6.c=color(random(255),random(0,20),random(255));
-       mv6.radius = 10;
+       mv6.radius = 5;
+       // 不需要尾巴
+       mv6.tail = null;
        sys.add(mv6);
      }
   }

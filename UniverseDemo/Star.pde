@@ -32,16 +32,18 @@ class Star{
       text(name,px,py-radius);
     }
     fill(c);
-    if(num==tail.length){
-      num = 0;
-    }
-    tail[num]=pos.copy();
-    num++;
-    for(PVector p : tail){
-      if(p!=null){
-        circle(p.x*prRatio,p.y*prRatio,3);
+    if(tail!=null){
+      if(num==tail.length){
+        num = 0;
+      }
+      tail[num]=pos.copy();
+      num++;
+      for(PVector p : tail){
+        if(p!=null){
+          circle(p.x*prRatio,p.y*prRatio,3);
+        }
       }
     }
-    circle(px,py,radius);
+    circle(px,py,radius*2);
   }
 }
