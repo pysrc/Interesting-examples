@@ -29,7 +29,7 @@ class Star{
     float py = pos.y*prRatio;
     fill(0);
     if(showName){
-      text(name,px,py-radius);
+      text(name,px,py-radius-5);
     }
     fill(c);
     if(tail!=null){
